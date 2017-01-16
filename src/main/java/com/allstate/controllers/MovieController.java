@@ -29,4 +29,10 @@ public class MovieController {
 
     //delete /movies/3
     public void delete(){};
+
+//    @RequestMapping(value={"/id"}, method = RequestMethod.GET)
+//    //get /movies
+//    public Movie search(@Q){
+//        return this.service.search(movie);
+//    };
 }

@@ -17,4 +17,6 @@ public class MovieService {
     public Movie create(Movie m){
         return  this.repository.save(m);
     }
+
+//    public Movie search(Movie m){ return  this.repository.findOne(m.getId()); }
 }
