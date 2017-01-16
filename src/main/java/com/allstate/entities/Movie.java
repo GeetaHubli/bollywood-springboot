@@ -6,7 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -63,4 +65,5 @@ public class Movie {
     public void setModified(Date modified) {
         this.modified = modified;
     }
+
 }

@@ -5,6 +5,8 @@ import com.allstate.repositories.IMovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class MovieService {
     private IMovieRepository repository;
@@ -18,5 +20,33 @@ public class MovieService {
         return  this.repository.save(m);
     }
 
-//    public Movie search(Movie m){ return  this.repository.findOne(m.getId()); }
+    public Movie findById(int id){
+        return this.repository.findOne(id);
+    }
+
+    public Iterable<Movie> findAll(){
+        return this.repository.findAll();
+    }
+
+    public Movie findByTitle(String title){
+        return this.repository.findByTitle(title);
+    }
+
+    public void delete(int id){
+        this.repository.delete(id);
+    }
+
+    public Movie update(int id, Movie newValueMovie){
+        Movie movie = findById(id);
+        if(movie != null) {
+            movie.setTitle(newValueMovie.getTitle());
+            movie.setWatched(newValueMovie.isWatched());
+            movie.setRating(newValueMovie.getRating());
+            movie.setReleased(newValueMovie.getReleased());
+            movie.setLength(newValueMovie.getLength());
+            Movie updateMovie = this.repository.save(movie);
+            return updateMovie;
+        }
+        return null;
+    }
 }
