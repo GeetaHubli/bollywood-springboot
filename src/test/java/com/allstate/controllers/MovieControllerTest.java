@@ -20,12 +20,15 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(MovieController.class)
 public class MovieControllerTest {
+
+    private Movie movie;
 
     @Autowired
     private MockMvc mvc;
@@ -35,7 +38,10 @@ public class MovieControllerTest {
 
     @Before
     public void setUp() throws Exception {
-
+        movie = new Movie();
+        movie.setId(3);
+        movie.setVersion(0);
+        movie.setTitle("ddlj");
     }
 
     @After
@@ -45,18 +51,15 @@ public class MovieControllerTest {
 
     @Test
     public void shouldCreateMovie() throws Exception {
-        Movie m = new Movie();
-        m.setId(3);
-        m.setTitle("ddlj");
-
         given(this.service.create(Mockito.any(Movie.class)))
-                .willReturn(m);
+                .willReturn(movie);
 
         MockHttpServletRequestBuilder request = post("/movies")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"title\": \"The Avengers\"}");
 
         this.mvc.perform(request)
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(3)))
                 .andExpect(jsonPath("$.title", is("ddlj")));
@@ -64,19 +67,16 @@ public class MovieControllerTest {
 
     @Test
     public void shouldFindMovie() throws Exception {
-        Movie m = new Movie();
-        m.setId(5);
-        m.setTitle("test");
-
         given(this.service.findById(3))
-                .willReturn(m);
+                .willReturn(movie);
 
         MockHttpServletRequestBuilder request = get("/movies/3");
 
         this.mvc.perform(request)
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(5)))
-                .andExpect(jsonPath("$.title", is("test")));
+                .andExpect(jsonPath("$.id", is(3)))
+                .andExpect(jsonPath("$.title", is("ddlj")));
     }
 
 }
